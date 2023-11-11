@@ -12,10 +12,9 @@ class Product(Base):
 
      product_id = Column(Integer, primary_key=True)
      product_name = Column('Product Name', String)
-     
-     product_quantity = Column('Quantity', Integer)
      product_price = Column('Price', Integer)
+     product_quantity = Column('Quantity', Integer)
      date_updated = Column('Last Update', Date)
 
      def __repr__(self):
-         return f'Store Inventory: {self.product_name}, Quantity: {self.product_quantity}, Price: {self.product_price}, Last Update: {self.date_updated}'
+         return f'Store Inventory: {self.product_name}, Quantity: {self.product_price}, Price: {self.product_quantity}, Last Update: {self.date_updated}'
