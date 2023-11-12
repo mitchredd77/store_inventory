@@ -189,11 +189,11 @@ def app():
             the_product = session.query(Product).filter(Product.product_id==id_choice).first()
             print(f"""
              ************************************************ 
-             *          {the_product.product_name}          * 
+             *          {the_product.product_name}             * 
              ************************************************     
-             *     Price: ${the_product.product_price / 100}*
-             *     Quantity: {the_product.product_quantity} *
-             *     Date Updated: {the_product.date_updated} *
+             *     Price: ${the_product.product_price / 100}                     *
+             *     Quantity: {the_product.product_quantity}                      *
+             *     Date Updated: {the_product.date_updated}                      *
              ************************************************
              ************************************************""")
             time.sleep(3.5)
