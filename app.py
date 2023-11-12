@@ -181,8 +181,8 @@ def app():
                     **************************************
                     **************************************
                     * ID Options: {id_options}           *
-                    * Product id:                   *
-                    **************************************""") 
+                    * Product id:   """)
+                  
                  id_choice = clean_id(id_choice, id_options)
                  if type(id_choice) == int:
                     id_error = False
