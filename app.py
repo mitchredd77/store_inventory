@@ -97,6 +97,11 @@ def backup_csv():
         writer.writerow(["Product Name | Price | Quantity | Date Updated"])
         for row in backup_data:
             writer.writerow(row)
+    input("""
+          *****************************************
+          ******        BACKUP MADE!         ******
+          *        Press enter to continue.       *
+          *****************************************""")
 
 #### confirm the user selects an id
 def clean_id(id_str, options):
