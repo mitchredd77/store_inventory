@@ -40,6 +40,14 @@ def clean_date(date):
               \rEx: 11/12/2022
               \r Press enter to try again.
               \r**************************''')
+    except Exception:
+        input('''
+              \n****** DATE ERROR ******
+              \rThere was an error with your input
+              \r Please use a date in this format: 11/12/2022
+              \r Press enter to try again.
+              \r**************************''')
+
     else:
         return datetime_val
     
@@ -156,6 +164,7 @@ def clean_quantity(quantity):
             \r**************************''')
     else:
         return return_quantity
+
 #### Run main application
 def app():
     app_running = True
@@ -216,7 +225,7 @@ def app():
              *     Date Updated: {the_product.date_updated}                  
              ************************************************
              ************************************************""")
-            time.sleep(3.5)
+            time.sleep(2)
         elif choice == "e":
             print("""
      *******************************
