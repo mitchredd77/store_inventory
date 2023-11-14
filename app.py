@@ -66,7 +66,6 @@ def clean_price(price):
 #### Add csv data to database,
 #### only add entries that have not been added yet
 
-
 def add_csv():
      with open('inventory.csv', newline='') as csvfile:
 ####    Skip first line containing field headers
@@ -94,8 +93,8 @@ def add_csv():
                  if csv_date_updated > product.date_updated:
                     session.autoflush = False
                     product.product_name = row[0]
-                    product.product_quantity = row[1]
-                    product.product_price = row[2]
+                    product.product_price = clean_price(row[1])
+                    product.product_quantity = row[2]
                     product.date_updated = clean_date(row[3]) 
                     session.add(product)
         session.commit()
@@ -103,18 +102,21 @@ def add_csv():
 #### Create backup of database in csv format      
 def backup_csv():
     backup_data = []
+    header_names = ["Product Name", "Price", "Quantity", "Date Updated"]
     for product in session.query(Product):
-        current_product = []
-        current_product.append(product.product_name)
-        current_product.append(product.product_price)
-        current_product.append(product.product_quantity)
-        current_product.append(product.date_updated)
-        backup_data.append(current_product)
-    with open('backup.csv', 'w') as csvfile:
-        writer = csv.writer(csvfile, delimiter=',')
-        writer.writerow(["Product Name | Price | Quantity | Date Updated"])
+         current_product = []
+         current_product.append(product.product_name)
+         current_product.append(product.product_price)
+         current_product.append(product.product_quantity)
+         current_product.append(product.date_updated)
+         backup_data.append(current_product)
+    with open('backup.csv', 'w', newline="") as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(header_names)
+        
         for row in backup_data:
-            writer.writerow(row)
+            writer.writerow(row[0:4])
+
     input("""
           *****************************************
           ******        BACKUP MADE!         ******
@@ -136,12 +138,12 @@ def clean_id(id_str, options):
         if product_id in options:
           return product_id
         else:
-            input("""
-            |******* AVAILABLE ID OPTIONS******|
-            |----------------------------------|    
-            |Options: {options}                | 
-            |__________________________________|
-            |**********************************|""")
+            input(f'''
+            |******* AVAILABLE ID OPTIONS******
+            |----------------------------------    
+            |Options: {options}                
+            |__________________________________
+            |**********************************''')
 
 def clean_quantity(quantity):
     try:
