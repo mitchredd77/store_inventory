@@ -194,9 +194,9 @@ def app():
             session.add(new_product)
             session.commit()
             print("""
-                     |********************************|
-                     |        Product Added!          |
-                     |********************************|""")
+                     **********************************
+                     *        Product Added!          *
+                     **********************************""")
             time.sleep(1.5)
         elif choice == "b":
             backup_csv()
