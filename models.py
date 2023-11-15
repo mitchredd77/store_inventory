@@ -8,13 +8,13 @@ session = Session()
 Base = declarative_base()
 
 class Product(Base):
-     __tablename__ = "inventory"
+     __tablename__ = "products"
 
-     product_id = Column(Integer, primary_key=True)
-     product_name = Column("Product Name", String)
-     product_price = Column("Price", Integer)
-     product_quantity = Column("Quantity", Integer)
-     date_updated = Column("Last Update", Date)
+     product_id = Column("product_id", Integer, primary_key=True)
+     product_name = Column("product_name", String)
+     product_quantity = Column("product_quantity", Integer)
+     product_price = Column("product_price", Integer)
+     date_updated = Column("date_updated", Date)
 
      def __repr__(self):
-         return f'{self.product_name}, {self.product_price}, {self.product_quantity}, {self.date_updated}'
+         return f'{product_id}, {self.product_name}, {self.product_quantity}, {self.product_price}, {self.date_updated}'

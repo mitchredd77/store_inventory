@@ -84,7 +84,6 @@ def add_csv():
             product_name = row[0]
             product = session.query(Product).filter(Product.product_name == product_name).first()
             if product == None:
-                product_name = row[0]
                 product_price = (str(row[1]))
                 product_price = clean_price(product_price)
                 product_quantity = row[2]
@@ -93,29 +92,25 @@ def add_csv():
                 new_product = Product(product_name=product_name, product_price=product_price, product_quantity=product_quantity, date_updated=date_updated)
                 session.add(new_product)
             else:
-                 product_name = row[0]
-                 product = session.query(Product).filter(Product.product_name == product_name).first()
                  csv_date_updated = clean_date(row[3])
                  date_object = product.date_updated
                  product.date_updated = datetime.datetime.combine(date_object, datetime.time())
                  if csv_date_updated > product.date_updated:
                     session.autoflush = False
-                    product.product_name = row[0]
                     product.product_price = clean_price(row[1])
                     product.product_quantity = row[2]
                     product.date_updated = clean_date(row[3]) 
-                    session.add(product)
         session.commit()
 
 #### Create backup of database in csv format      
 def backup_csv():
     backup_data = []
-    header_names = ["Product Name", "Price", "Quantity", "Date Updated"]
+    header_names = ["product_name", "product_quantity", "product_price", "date_updated"]
     for product in session.query(Product):
          current_product = []
          current_product.append(product.product_name)
-         current_product.append(product.product_price)
          current_product.append(product.product_quantity)
+         current_product.append(product.product_price)
          current_product.append(product.date_updated)
          backup_data.append(current_product)
     with open('backup.csv', 'w', newline="") as csvfile:
@@ -184,12 +179,7 @@ def app():
                 quantity = clean_quantity(quantity)
                 if type(quantity) == int:
                     quantity_error = False
-            date_error = True
-            while date_error:
-                date = input("Date Updated (Ex: 11/1/2023): ")
-                date = clean_date(date)
-                if type(date) == datetime.datetime:
-                    date_error = False
+                date = datetime.datetime.now()
             new_product = Product(product_name=product_name, product_price=price, product_quantity=quantity, date_updated=date)
             session.add(new_product)
             session.commit()
