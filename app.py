@@ -102,7 +102,7 @@ def add_csv():
                     product.date_updated = clean_date(row[3]) 
         session.commit()
 
-#### Create backup of database in csv format      
+### Create backup of database in csv format      
 def backup_csv():
     backup_data = []
     header_names = ["product_name", "product_quantity", "product_price", "date_updated"]
@@ -180,16 +180,27 @@ def app():
                 if type(quantity) == int:
                     quantity_error = False
                 date = datetime.datetime.now()
-            new_product = Product(product_name=product_name, product_price=price, product_quantity=quantity, date_updated=date)
-            session.add(new_product)
-            session.commit()
-            print("""
-                     **********************************
-                     *        Product Added!          *
-                     **********************************""")
-            time.sleep(1.5)
+            new_product = session.query(Product).filter(Product.product_name == product_name).first()
+            if new_product == None:
+                new_product = Product(product_name=product_name, product_price=price, product_quantity=quantity, date_updated=date)
+                session.add(new_product)
+                session.commit()
+                print("""
+                       **********************************
+                       *        Product Added!          *
+                       **********************************""")
+                time.sleep(1.5)
+            else:
+                new_product.product_quantity = quantity
+                new_product.product_price = price
+                new_product.date_updated = date
+                session.commit()
+                print("""     
+                         *********************************************************************
+                         The product was in inventory and was updated to the values submitted!
+                         *********************************************************************""")
         elif choice == "b":
-            backup_csv()
+               backup_csv()
         elif choice == "v":
             id_options = []
             for product in session.query(Product):
