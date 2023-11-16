@@ -197,8 +197,9 @@ def app():
                 session.commit()
                 print("""     
                          *********************************************************************
-                         The product was in inventory and was updated to the values submitted!
+                         The product was already in inventory and updated to the values submitted!
                          *********************************************************************""")
+                time.sleep(1.5)
         elif choice == "b":
                backup_csv()
         elif choice == "v":
